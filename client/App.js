@@ -4,7 +4,6 @@ import DefaultScreen from "./screens/DefaultScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import SignInScreen from "./screens/SignInScreen";
 import { NativeBaseProvider } from "native-base";
-//import { NativeBaseProvider } from "native-base";
 
 const Stack = createNativeStackNavigator();
 
