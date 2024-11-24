@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import SignUpForm from "../components/SignUpForm";
+import AuthForm from "../components/AuthForm";
 
 export default SignUpScreen = () => {
   const handleSubmit = (values) => {
@@ -9,7 +9,7 @@ export default SignUpScreen = () => {
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require("../assets/logoIcon.png")} />
-      <SignUpForm handleSubmit={handleSubmit} />
+      <AuthForm handleSubmit={handleSubmit} type="SignUp" />
     </View>
   );
 };
