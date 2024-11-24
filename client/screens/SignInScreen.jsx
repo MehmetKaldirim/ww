@@ -1,8 +1,8 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-//import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import AuthForm from "../components/AuthForm";
 import { Button } from "native-base";
-//import { signIn } from "../services/authService";
+import { signIn } from "../services/authService";
 
 const TOKEN_KEY = "TOKEN_KEY";
 
@@ -15,8 +15,7 @@ export default SignInScreen = ({ navigation }) => {
     } else {
       delete values.email;
     }
-    //await signIn(values);
-    console.log(values);
+    await signIn(values);
   };
 
   return (
@@ -30,7 +29,7 @@ export default SignInScreen = ({ navigation }) => {
         w="35%"
         onPress={() => navigation.navigate("SignUp")}
       >
-        go to Sign Up
+        go to Sign Uppp
       </Button>
     </View>
   );
