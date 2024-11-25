@@ -1,12 +1,30 @@
+import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import AuthForm from "../components/AuthForm";
 import { signUp } from "../services/authService";
-import { Button } from "native-base";
+import { Button, useToast } from "native-base";
 
-export default SignUpScreen = ({ navigation }) => {
+export default function SignUpScreen({ navigation }) {
+  const toast = useToast(); // Initialize NativeBase toast
+
   const handleSubmit = async (values) => {
-    await signUp(values).then(() => navigation.navigate("SignIn"));
-    console.log(values);
+    try {
+      const response = await signUp(values);
+      if (response.status === 201) {
+        navigation.navigate("SignIn");
+      }
+    } catch (error) {
+      console.log(
+        "Error:",
+        error.response?.data?.message || "Something went wrong"
+      );
+      toast.show({
+        title: error.response?.data?.message || "Signup failed!",
+        status: "error", // NativeBase status (success, error, warning, info)
+        placement: "top", // Placement of the toast on the screen
+        duration: 3000, // Duration of toast visibility in milliseconds
+      });
+    }
   };
 
   return (
@@ -20,22 +38,26 @@ export default SignUpScreen = ({ navigation }) => {
         w="35%"
         onPress={() => navigation.navigate("SignIn")}
       >
-        go to Sign In
+        Go to Sign In
       </Button>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#282B34",
+    justifyContent: "center", // Center content vertically
+    paddingHorizontal: 20, // Add some horizontal padding
   },
   logo: {
-    alignSelf: "flex-end",
+    alignSelf: "center", // Center the logo horizontally
+    marginBottom: 20, // Add space below the logo
   },
   text: {
     color: "gray",
     textAlign: "center",
+    marginTop: 20, // Add space above the text
   },
 });

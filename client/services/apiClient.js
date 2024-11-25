@@ -15,17 +15,21 @@ export const setToken = async (token) => {
   await SecureStore.setItemAsync(TOKEN_KEY, token);
 };
 
-const getToken = async (token) => {
-  await SecureStore.getItemAsync(TOKEN_KEY);
+const getToken = async (tokenKey) => {
+  await SecureStore.getItemAsync(tokenKey);
 };
 
 apiClient.interceptors.request.use(
   async (config) => {
     try {
-      const token = getToken(TOKEN_KEY);
-      if (token && config.url !== "/signin/" && config.url !== "/signup/") {
+      const token = await getToken(TOKEN_KEY);
+      if (
+        token &&
+        config.url !== "auth/signin/" &&
+        config.url !== "auth/signup/"
+      ) {
         // TODO: check headers
-        config.headers["Authorization"] = `Bearer ${token}`;
+        config.headers["x-authorization"] = `Bearer ${token}`;
       }
       return config;
     } catch (e) {

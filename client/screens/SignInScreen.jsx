@@ -1,12 +1,13 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import AuthForm from "../components/AuthForm";
-import { Button } from "native-base";
+import { Button, useToast } from "native-base";
 import { signIn } from "../services/authService";
-
-const TOKEN_KEY = "TOKEN_KEY";
+import { setToken } from "../services/apiClient";
 
 export default SignInScreen = ({ navigation }) => {
+  const toast = useToast(); // Initialize NativeBase toast
+
   const handleSubmit = async (values) => {
     if (values.name.includes("@")) {
       const email = values.name;
@@ -15,7 +16,23 @@ export default SignInScreen = ({ navigation }) => {
     } else {
       delete values.email;
     }
-    await signIn(values);
+    await signIn(values)
+      .then(async (response) => {
+        const token = response.data.token;
+        console.log(token);
+        await setToken(token);
+      })
+      .catch((error) => {
+        console.log(
+          "Error:",
+          error.response?.data?.message || "Something went wrong"
+        );
+        toast.show({
+          title: error.response.data.message,
+          placement: "top",
+          duration: 3000,
+        });
+      });
   };
 
   return (
@@ -29,7 +46,7 @@ export default SignInScreen = ({ navigation }) => {
         w="35%"
         onPress={() => navigation.navigate("SignUp")}
       >
-        go to Sign Uppp
+        go to Sign Up
       </Button>
     </View>
   );
