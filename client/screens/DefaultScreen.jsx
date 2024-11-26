@@ -17,6 +17,10 @@ export default DefaultScreen = ({ navigation }) => {
         title="Go to HomeScreen"
         onPress={() => navigation.navigate("HomeScreen")}
       />
+      <Button
+        title="Go to ForecastScreen"
+        onPress={() => navigation.navigate("ForecastScreen")}
+      />
       <StatusBar style="auto" />
     </View>
   );

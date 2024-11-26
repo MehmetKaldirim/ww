@@ -1,105 +1,72 @@
 import { Image, StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { Box, Button, TextArea } from "native-base";
+import { Box, TextArea } from "native-base";
+import ScreenTitle from "../components/ScreenTitle";
+import WeatherSection from "../components/weather/WeatherSection";
+import DetailsSection from "../components/details/DetailsSection";
+import ButtonIcon from "../components/ButtonIcon";
 
 export default HomeScreen = ({ navigation }) => {
-  const WeatherData = ({ time, temp, wind }) => {
-    return (
-      <Box bgColor="#313135" pl="1" pr="3" mt="2" rounded="20">
-        <Text style={styles.weatherText}>{time}</Text>
-        <Box flexDir="row" justifyContent="center">
-          <Image
-            style={styles.weatherIcon}
-            source={{ uri: "https://openweathermap.org/img/wn/10d@2x.png" }}
-          />
-          <Text style={styles.weatherText}>{temp}°C</Text>
-          <Image
-            style={styles.weatherIcon}
-            source={require("../assets/icons/windIcon.png")}
-          />
-          <Text style={styles.weatherText}>{wind}m/h</Text>
-        </Box>
-      </Box>
-    );
-  };
+  const weatherData = [
+    {
+      time: "Morning",
+      temp: "10",
+      wind: "5",
+    },
+    {
+      time: "Day",
+      temp: "15",
+      wind: "3",
+    },
+    {
+      time: "Evening",
+      temp: "13",
+      wind: "7",
+    },
+    {
+      time: "Night",
+      temp: "8",
+      wind: "3",
+    },
+  ];
 
-  const DetailsData = ({ name, value }) => {
-    return (
-      <Box flexDir="row" alignSelf="center">
-        <Text style={styles.detailTextName}> {name}: </Text>
-        <Text style={styles.detailTextValue}> {value} </Text>
-      </Box>
-    );
-  };
+  const detailsData = [
+    {
+      name: "Location",
+      value: "Budapest",
+    },
+    {
+      name: "Sunrise",
+      value: "07:00",
+    },
+    {
+      name: "Sunset",
+      value: "20:00",
+    },
+    {
+      name: "Pressure",
+      value: "1018",
+    },
+  ];
 
   return (
     <View style={styles.container}>
-      <Box
-        alignSelf="center"
-        rounded="15"
-        p="2"
-        w="85%"
-        _text={{
-          fontSize: "25",
-          fontWeight: "light",
-          color: "warmGray.50",
-          letterSpacing: "lg",
-          alignSelf: "center",
-        }}
-        bg="#202021"
-      >
-        Hey John, nice to see you!
-      </Box>
+      <ScreenTitle title="Hey John, nice to meet you!" />
       <Box flexDir="row">
         <Text style={styles.subtitleText}>It is 19 of May, day!</Text>
-        <TouchableOpacity onPress={() => null}>
+        <TouchableOpacity onPress={() => navigation.navigate("ForecastScreen")}>
           <Text style={styles.buttonText}>Check next days!</Text>
         </TouchableOpacity>
       </Box>
 
       <View style={styles.middleSection}>
         <View>
-          <Box
-            alignSelf="center"
-            rounded="15"
-            p="2"
-            w="100%"
-            bg="#202021"
-            shadow={9}
-            shadowOffset={{ width: 0, height: 0 }}
-            shadowOpacity={0.3}
-            shadowRadius={4}
-          >
-            <WeatherData time="Morning" temp="10" wind="15" />
-            <WeatherData time="Day" temp="17" wind="15" />
-            <WeatherData time="Evening" temp="13" wind="15" />
-            <WeatherData time="Night" temp="7" wind="15" />
-          </Box>
-          <Box
-            mt="3"
-            alignSelf="center"
-            rounded="15"
-            p="3"
-            w="100%"
-            bg="#202021"
-            shadow={9}
-            shadowOffset={{ width: 0, height: 0 }}
-            shadowOpacity={0.3}
-            shadowRadius={4}
-          >
-            <Text style={styles.detailsTextTitle}> Details </Text>
-            <DetailsData name="Location" value="Bochum" />
-            <DetailsData name="Sunrise" value="07:00" />
-            <DetailsData name="Sunset" value="20:00" />
-            <DetailsData name="Pressure" value="1016" />
-          </Box>
+          <WeatherSection weatherData={weatherData} />
+          <DetailsSection detailsData={detailsData} />
         </View>
-
-        <View>
-          <Image
-            style={styles.logo}
-            source={require("../assets/placeHolderImg.png")}
-          />
-        </View>
+        <Image
+          style={styles.logo}
+          source={require("../assets/placeHolderImg.png")}
+        />
       </View>
       <Box>
         <Text style={styles.subtitleText}>What do you wear today?</Text>
@@ -112,28 +79,22 @@ export default HomeScreen = ({ navigation }) => {
           totalLines={4}
           fontSize="15"
           color="white"
-          backgroundColor="#207021"
+          backgroundColor="primary.200"
         />
       </Box>
       <Box flexDir="row" justifyContent="space-around" mt="7">
-        <TouchableOpacity onPress={() => null}>
-          <Image
-            style={styles.logo}
-            source={require("../assets/icons/listIcon.png")}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => null}>
-          <Image
-            style={styles.logo}
-            source={require("../assets/icons/cameraIcon.png")}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => null}>
-          <Image
-            style={styles.logo}
-            source={require("../assets/icons/saveIcon.png")}
-          />
-        </TouchableOpacity>
+        <ButtonIcon
+          handleClick={null}
+          iconPath={require("../assets/icons/listIcon.png")}
+        />
+        <ButtonIcon
+          handleClick={null}
+          iconPath={require("../assets/icons/cameraIcon.png")}
+        />
+        <ButtonIcon
+          handleClick={null}
+          iconPath={require("../assets/icons/saveIcon.png")}
+        />
       </Box>
     </View>
   );
@@ -149,9 +110,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
-  logo: {
-    alignSelf: "flex-end",
-  },
   subtitleText: {
     color: "grey",
     fontSize: 20,
@@ -164,37 +122,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingTop: "2%",
     textDecorationLine: "underline",
-  },
-  weatherLine: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  weatherText: {
-    color: "white",
-    fontSize: 15,
-    alignSelf: "center",
-  },
-  weatherIcon: {
-    width: 30,
-    height: 30,
-  },
-  detailsTextTitle: {
-    marginBottom: 5,
-    textDecorationLine: "underline",
-    color: "white",
-    fontSize: 17,
-    alignSelf: "center",
-  },
-  detailTextName: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 15,
-    alignSelf: "center",
-  },
-  detailTextValue: {
-    color: "white",
-    fontSize: 15,
-    alignSelf: "center",
-    fontWeight: "300",
   },
 });
