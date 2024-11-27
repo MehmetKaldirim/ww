@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { JWT_KEY } = require("../../config/keys");
-const errorHendler = require("../utils/errorHandler");
+const errorHandler = require("../utils/errorHandler");
 
 module.exports.signin = async (req, res) => {
   const candidate = await User.findOne({
@@ -75,7 +75,7 @@ module.exports.signup = async (req, res) => {
         message: "User was created",
       });
     } catch (e) {
-      errorHendler(res, e);
+      errorHandler(res, e);
     }
   }
 };

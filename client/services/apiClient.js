@@ -19,6 +19,17 @@ const getToken = async (tokenKey) => {
   await SecureStore.getItemAsync(tokenKey);
 };
 
+export const setUserName = async (name) => {
+  console.log(name);
+  await AsyncStorage.setItem("username", name);
+};
+
+export const getUserName = async () => {
+  const name = await AsyncStorage.getItem("username");
+  console.log("get", name);
+  return name;
+};
+
 apiClient.interceptors.request.use(
   async (config) => {
     try {

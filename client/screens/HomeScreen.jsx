@@ -4,8 +4,24 @@ import ScreenTitle from "../components/ScreenTitle";
 import WeatherSection from "../components/weather/WeatherSection";
 import DetailsSection from "../components/details/DetailsSection";
 import ButtonIcon from "../components/ButtonIcon";
+import { useState, useEffect } from "react";
+import { getUserName } from "../services/apiClient";
 
 export default HomeScreen = ({ navigation }) => {
+  const [userName, setUserName] = useState("ferdi");
+
+  useEffect(() => {
+    const handleUserName = async () => {
+      try {
+        const username = await getUserName();
+        setUserName(username);
+      } catch (error) {
+        console.log("Error fetching username from AsyncStorage:", error);
+      }
+    };
+    handleUserName();
+  }, []);
+
   const weatherData = [
     {
       time: "Morning",
@@ -50,7 +66,7 @@ export default HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScreenTitle title="Hey John, nice to meet you!" />
+      <ScreenTitle title={`Hey ${userName}, nice to meet you!`} />
       <Box flexDir="row">
         <Text style={styles.subtitleText}>It is 19 of May, day!</Text>
         <TouchableOpacity onPress={() => navigation.navigate("ForecastScreen")}>

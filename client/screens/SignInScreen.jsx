@@ -3,7 +3,7 @@ import * as SecureStore from "expo-secure-store";
 import AuthForm from "../components/AuthForm";
 import { Button, useToast } from "native-base";
 import { signIn } from "../services/authService";
-import { setToken } from "../services/apiClient";
+import { setToken, setUserName } from "../services/apiClient";
 
 export default SignInScreen = ({ navigation }) => {
   const toast = useToast(); // Initialize NativeBase toast
@@ -18,19 +18,17 @@ export default SignInScreen = ({ navigation }) => {
     }
     await signIn(values)
       .then(async (response) => {
-        const token = response.data.token;
-        console.log(token);
+        const { token, name } = response.data;
+        console.log("token  = " + token + " /n balta " + name);
         await setToken(token);
+        await setUserName(name);
       })
       .catch((error) => {
-        console.log(
-          "Error:",
-          error.response?.data?.message || "Something went wrong"
-        );
         toast.show({
-          title: error.response.data.message,
-          placement: "top",
-          duration: 3000,
+          title: error.response?.data?.message || "Signup failed!",
+          status: "error", // NativeBase status (success, error, warning, info)
+          placement: "top", // Placement of the toast on the screen
+          duration: 3000, // Duration of toast visibility in milliseconds
         });
       });
   };
@@ -44,6 +42,7 @@ export default SignInScreen = ({ navigation }) => {
         mt="5"
         alignSelf="center"
         w="35%"
+        rounded="full"
         onPress={() => navigation.navigate("SignUp")}
       >
         go to Sign Up
