@@ -5,6 +5,13 @@ import { StyleSheet } from "react-native";
 import { Box } from "native-base";
 
 const DetailsSection = ({ detailsData }) => {
+  const data = Object.entries(detailsData).map(([name, value]) => ({
+    name,
+    value,
+  }));
+
+  //const data = {};
+
   return (
     <Box
       mt="3"
@@ -12,7 +19,7 @@ const DetailsSection = ({ detailsData }) => {
       rounded="15"
       p="3"
       w="100%"
-      bg="primary.50"
+      bg="primary.200"
       shadow={9}
       shadowOffset={{ width: 0, height: 0 }}
       shadowOpacity={0.3}
@@ -20,7 +27,7 @@ const DetailsSection = ({ detailsData }) => {
     >
       <Text style={styles.detailsTextTitle}> Details </Text>
       <FlatList
-        data={detailsData}
+        data={data}
         renderItem={({ item }) => {
           return <DetailsData name={item.name} value={item.value} />;
         }}

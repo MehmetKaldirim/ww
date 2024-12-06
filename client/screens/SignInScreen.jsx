@@ -22,6 +22,7 @@ export default SignInScreen = ({ navigation }) => {
         console.log("token  = " + token + " /n balta " + name);
         await setToken(token);
         await setUserName(name);
+        navigation.navigate("HomeScreen");
       })
       .catch((error) => {
         toast.show({
