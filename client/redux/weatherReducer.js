@@ -5,12 +5,12 @@ import { LOADING } from "../constants";
 
 export const fetchWeatherData = createAsyncThunk(
   "weatherData",
-  async (location) => {
+  async (location, { rejectWithValue }) => {
     try {
       const response = await getWeather(location);
       return response.data;
     } catch (e) {
-      return e.response.data.message;
+      return rejectWithValue(e.response.data.error.message);
     }
   }
 );
@@ -26,16 +26,16 @@ const weatherSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchWeatherData.pending, (state) => {
-        state.isLoading = true;
+        state.isLoading = LOADING.PENDING;
       })
       .addCase(fetchWeatherData.fulfilled, (state, action) => {
+        state.isLoading = LOADING.FULFILLED;
         const res = prepareResponse(action.payload);
         state.data = res;
-        state.isLoading = LOADING.FULFILLED;
       })
       .addCase(fetchWeatherData.rejected, (state, action) => {
-        state.error = action.error.message;
         state.isLoading = LOADING.REJECTED;
+        state.error = action.payload;
       });
   },
 });

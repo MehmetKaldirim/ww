@@ -6,5 +6,7 @@ const BASE_URL = "http://api.weatherapi.com/v1/forecast.json";
 export const getWeather = async (location) => {
   const url = `${BASE_URL}?key=${keys.WEATHER_KEY}&q=${location}&days=5`;
 
+  const data = await axios.get(url);
+  console.log("data = " + data);
   return await axios.get(url);
 };

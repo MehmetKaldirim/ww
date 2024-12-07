@@ -5,13 +5,6 @@ import { StyleSheet } from "react-native";
 import { Box } from "native-base";
 
 const DetailsSection = ({ detailsData }) => {
-  const data = Object.entries(detailsData).map(([name, value]) => ({
-    name,
-    value,
-  }));
-
-  //const data = {};
-
   return (
     <Box
       mt="3"
@@ -25,9 +18,10 @@ const DetailsSection = ({ detailsData }) => {
       shadowOpacity={0.3}
       shadowRadius={4}
     >
-      <Text style={styles.detailsTextTitle}> Details </Text>
+      <Text style={styles.detailsTextTitle}>Details</Text>
       <FlatList
-        data={data}
+        data={detailsData} // Direkt detailsData'yı kullanıyoruz
+        keyExtractor={(item, index) => index.toString()} // FlatList için key tanımlandı
         renderItem={({ item }) => {
           return <DetailsData name={item.name} value={item.value} />;
         }}
