@@ -59,7 +59,6 @@ export default HomeScreen = ({ navigation }) => {
     if (location || manualLocation) {
       const loc = manualLocation || location;
       dispatch(fetchWeatherData(loc));
-      console.log("is loading both " + isLoading);
     }
   }, [location, manualLocation, dispatch]);
 
@@ -78,7 +77,6 @@ export default HomeScreen = ({ navigation }) => {
   const handleManualLocationSubmit = () => {
     if (manualLocation) {
       dispatch(fetchWeatherData(manualLocation));
-      console.log("is loading handle manual location " + isLoading);
       setIsManualLocation(false);
     }
   };
@@ -97,42 +95,42 @@ export default HomeScreen = ({ navigation }) => {
     { name: "Pressure", value: "1018" },
   ];
 
-  // console.log(
-  //   "cekilen cile ",
-  //   data?.currentDay.weatherData || fallbackWeatherData
-  // );
+  console.log(
+    "cekilen cile ",
+    data?.currentDay.weatherData || fallbackWeatherData
+  );
   console.log(
     "cekilen detail ",
     data?.currentDay.details || fallbackDetailsData
   );
 
-  console.log("is loading son " + isLoading);
   return (
     <View style={styles.container}>
       <ScreenTitle title={`Hey ${userName}, nice to meet you!`} />
-      {!isLoading || !isManualLocation ? (
+      {!isLoading ? (
         <>
           <Box flexDir="row">
             <Text style={styles.subtitleText}>
               {`Today is ${moment(new Date()).format("MMM Do")},`}
             </Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Forecast", data.forecast)}
+              onPress={() =>
+                navigation.navigate("Forecast", data?.forecast || [])
+              }
             >
               <Text style={styles.buttonText}>Check next days!</Text>
             </TouchableOpacity>
           </Box>
 
           <View style={styles.middleSection}>
-            <View>
-              <WeatherSection weatherData={data?.currentDay.weatherData} />
-              <DetailsSection detailsData={data?.currentDay.details} />
-            </View>
-            <Image
-              style={styles.logo}
-              source={require("../assets/placeHolderImg.png")}
+            <WeatherSection
+              weatherData={data?.currentDay.weatherData || fallbackWeatherData}
+            />
+            <DetailsSection
+              detailsData={data?.currentDay.details || fallbackDetailsData}
             />
           </View>
+
           <Box>
             <Text style={styles.subtitleText}>What do you wear today?</Text>
             <TextArea
@@ -147,58 +145,7 @@ export default HomeScreen = ({ navigation }) => {
               backgroundColor="primary.200"
             />
           </Box>
-          <Box flexDir="row" justifyContent="space-around" mt="7">
-            <ButtonIcon
-              handleClick={null}
-              iconPath={require("../assets/icons/listIcon.png")}
-            />
-            <ButtonIcon
-              handleClick={null}
-              iconPath={require("../assets/icons/cameraIcon.png")}
-            />
-            <ButtonIcon
-              handleClick={null}
-              iconPath={require("../assets/icons/saveIcon.png")}
-            />
-          </Box>
-        </>
-      ) : !isManualLocation ? (
-        <>
-          <Box flexDir="row">
-            <Text style={styles.subtitleText}>
-              {`Today is ${moment(new Date()).format("MMM Do")},`}
-            </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Forecast", data.forecast)}
-            >
-              <Text style={styles.buttonText}>Check next days!</Text>
-            </TouchableOpacity>
-          </Box>
 
-          <View style={styles.middleSection}>
-            <View>
-              <WeatherSection weatherData={fallbackWeatherData} />
-              <DetailsSection detailsData={fallbackDetailsData} />
-            </View>
-            <Image
-              style={styles.logo}
-              source={require("../assets/placeHolderImg.png")}
-            />
-          </View>
-          <Box>
-            <Text style={styles.subtitleText}>What do you wear today?</Text>
-            <TextArea
-              mt="2"
-              placeholder="Do you want to remember later in what clothes it was comfortable in this weather? Fill out this form!"
-              w="85%"
-              alignSelf="center"
-              rounded="15"
-              totalLines={4}
-              fontSize="15"
-              color="white"
-              backgroundColor="primary.200"
-            />
-          </Box>
           <Box flexDir="row" justifyContent="space-around" mt="7">
             <ButtonIcon
               handleClick={null}
@@ -215,6 +162,9 @@ export default HomeScreen = ({ navigation }) => {
           </Box>
         </>
       ) : (
+        <Text style={styles.loadingText}>Loading data...</Text>
+      )}
+      {isManualLocation && (
         <Box>
           <TextInput
             placeholder="Enter your city name"
@@ -232,28 +182,28 @@ export default HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#282B34",
+  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  subtitleText: {
+    fontSize: 15,
+    fontWeight: "400",
+    color: "#fff",
+    textAlign: "center",
+    marginTop: 15,
   },
   middleSection: {
-    marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-around",
+    marginTop: 15,
+    marginBottom: 20,
   },
-  subtitleText: {
-    color: "grey",
+  loadingText: {
     fontSize: 20,
-    paddingLeft: "10%",
-    paddingRight: "3%",
-    paddingTop: "2%",
+    color: "white",
+    fontWeight: "600",
+    textAlign: "center",
+    marginTop: 10,
   },
-  buttonText: {
-    color: "grey",
-    fontSize: 20,
-    paddingTop: "2%",
-    textDecorationLine: "underline",
-  },
+  buttonText: { fontSize: 18, color: "#fff", textDecorationLine: "underline" },
   manualInput: {
     borderColor: "black",
     borderWidth: 1,
@@ -262,4 +212,5 @@ const styles = StyleSheet.create({
     width: 200,
     height: 40,
   },
+  logo: { width: 100, height: 100 },
 });

@@ -1,12 +1,12 @@
-import React from "react";
 import { Box } from "native-base";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
+import { Text } from "react-native";
 
 const DetailsData = ({ name, value }) => {
   return (
     <Box flexDir="row" alignSelf="center">
-      <Text style={styles.detailTextName}>{name}:</Text>
-      <Text style={styles.detailTextValue}>{value}</Text>
+      <Text style={styles.detailTextName}> {name}: </Text>
+      <Text style={styles.detailTextValue}> {value} </Text>
     </Box>
   );
 };

@@ -7,6 +7,7 @@ import { NativeBaseProvider } from "native-base";
 import HomeScreen from "./screens/HomeScreen";
 import theme from "./theme/theme";
 import ForecastScreen from "./screens/ForecastScreen";
+import MeinScreen from "./screens/MeinScreen.jsx";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
@@ -23,6 +24,7 @@ export default App = () => {
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="ForecastScreen" component={ForecastScreen} />
+            <Stack.Screen name="MeinScreen" component={MeinScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>

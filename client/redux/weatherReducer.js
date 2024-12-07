@@ -3,6 +3,7 @@ import { getWeather } from "../services/weatherService";
 import prepareResponse from "../utils/prepareResponse";
 import { LOADING } from "../constants";
 
+// Async Thunk: Hava durumu verisini çekme
 export const fetchWeatherData = createAsyncThunk(
   "weatherData",
   async (location, { rejectWithValue }) => {
@@ -26,14 +27,18 @@ const weatherSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchWeatherData.pending, (state) => {
+        console.log("fetchWeatherData.pending çağrıldı");
         state.isLoading = LOADING.PENDING;
       })
       .addCase(fetchWeatherData.fulfilled, (state, action) => {
+        //console.log("fetchWeatherData.fulfilled çağrıldı", action.payload);
         state.isLoading = LOADING.FULFILLED;
         const res = prepareResponse(action.payload);
         state.data = res;
+        console.log("res = " + res);
       })
       .addCase(fetchWeatherData.rejected, (state, action) => {
+        console.log("fetchWeatherData.rejected çağrıldı", action.payload);
         state.isLoading = LOADING.REJECTED;
         state.error = action.payload;
       });
