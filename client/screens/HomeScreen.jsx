@@ -77,8 +77,9 @@ export default HomeScreen = ({ navigation }) => {
 
   const handleManualLocationSubmit = () => {
     if (manualLocation) {
-      dispatch(fetchWeatherData(manualLocation));
       console.log("is loading handle manual location " + isLoading);
+      dispatch(fetchWeatherData(manualLocation));
+
       setIsManualLocation(false);
     }
   };
@@ -91,10 +92,10 @@ export default HomeScreen = ({ navigation }) => {
   ];
 
   const fallbackDetailsData = [
-    { name: "Location", value: "Default Location" },
-    { name: "Sunrise", value: "07:00" },
-    { name: "Sunset", value: "20:00" },
-    { name: "Pressure", value: "1018" },
+    { name: "Mocked Location", value: "Bochum" },
+    { name: "Mocked Sunrise", value: "07:00" },
+    { name: "Mocked Sunset", value: "20:00" },
+    { name: "Mocked Pressure", value: "1018" },
   ];
 
   // console.log(
@@ -102,7 +103,7 @@ export default HomeScreen = ({ navigation }) => {
   //   data?.currentDay.weatherData || fallbackWeatherData
   // );
   console.log(
-    "cekilen detail ",
+    "details data which send as a props ",
     data?.currentDay.details || fallbackDetailsData
   );
 
@@ -117,7 +118,9 @@ export default HomeScreen = ({ navigation }) => {
               {`Today is ${moment(new Date()).format("MMM Do")},`}
             </Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Forecast", data.forecast)}
+              onPress={() =>
+                navigation.navigate("ForecastScreen", data.forecast)
+              }
             >
               <Text style={styles.buttonText}>Check next days!</Text>
             </TouchableOpacity>
@@ -126,7 +129,9 @@ export default HomeScreen = ({ navigation }) => {
           <View style={styles.middleSection}>
             <View>
               <WeatherSection weatherData={data?.currentDay.weatherData} />
-              <DetailsSection detailsData={data?.currentDay.details} />
+              <DetailsSection
+                detailsData={data?.currentDay.details || fallbackDetailsData}
+              />
             </View>
             <Image
               style={styles.logo}
@@ -234,6 +239,8 @@ export default HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#282B34",
   },
   middleSection: {

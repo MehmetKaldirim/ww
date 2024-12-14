@@ -5,10 +5,12 @@ import { StyleSheet } from "react-native";
 import { Box } from "native-base";
 
 const DetailsSection = ({ detailsData }) => {
-  const data = Object.entries(detailsData).map(([name, value]) => ({
-    name,
-    value,
-  }));
+  const data = Array.isArray(detailsData)
+    ? detailsData
+    : Object.entries(detailsData || {}).map(([name, value]) => ({
+        name,
+        value,
+      }));
 
   return (
     <Box

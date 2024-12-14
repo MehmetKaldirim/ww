@@ -16,7 +16,7 @@ const MeinScreen = () => {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const response = await getWeather("Istanbul");
+        const response = await getWeather("Bochum");
         setWeatherData(response.data.forecast.forecastday[0]); // İlk günün verisi
         setLoading(false);
       } catch (err) {
