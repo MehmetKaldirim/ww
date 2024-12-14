@@ -8,108 +8,6 @@ import ButtonIcon from "../components/ButtonIcon";
 
 const ForecastScreen = ({ navigation }) => {
   const forecastData = useRoute().params;
-  const weatherData = [
-    {
-      date: "25 of May",
-      data: [
-        {
-          time: "Morning",
-          temp: "10",
-          wind: "5",
-        },
-        {
-          time: "Day",
-          temp: "15",
-          wind: "3",
-        },
-        {
-          time: "Evening",
-          temp: "13",
-          wind: "7",
-        },
-        {
-          time: "Night",
-          temp: "8",
-          wind: "3",
-        },
-      ],
-    },
-    {
-      date: "25 of May",
-      data: [
-        {
-          time: "Morning",
-          temp: "10",
-          wind: "5",
-        },
-        {
-          time: "Day",
-          temp: "15",
-          wind: "3",
-        },
-        {
-          time: "Evening",
-          temp: "13",
-          wind: "7",
-        },
-        {
-          time: "Night",
-          temp: "8",
-          wind: "3",
-        },
-      ],
-    },
-    {
-      date: "25 of May",
-      data: [
-        {
-          time: "Morning",
-          temp: "10",
-          wind: "5",
-        },
-        {
-          time: "Day",
-          temp: "15",
-          wind: "3",
-        },
-        {
-          time: "Evening",
-          temp: "13",
-          wind: "7",
-        },
-        {
-          time: "Night",
-          temp: "8",
-          wind: "3",
-        },
-      ],
-    },
-    {
-      date: "25 of May",
-      data: [
-        {
-          time: "Morning",
-          temp: "10",
-          wind: "5",
-        },
-        {
-          time: "Day",
-          temp: "15",
-          wind: "3",
-        },
-        {
-          time: "Evening",
-          temp: "13",
-          wind: "7",
-        },
-        {
-          time: "Night",
-          temp: "8",
-          wind: "3",
-        },
-      ],
-    },
-  ];
 
   return (
     <View style={styles.container}>
@@ -119,18 +17,18 @@ const ForecastScreen = ({ navigation }) => {
         data={forecastData}
         renderItem={({ item }) => {
           return (
-            <Box p="4">
+            <Box m="3" w="60%" alignSelf="center">
               <SectionTitle date={item.date} />
               <WeatherSection weatherData={item.data} />
             </Box>
           );
         }}
-        numColumns="2"
+        numColumns="1"
       />
 
       <Box alignSelf="center" mb="7%">
         <ButtonIcon
-          handleClick={() => navigation.navigate("HomeScreen")}
+          handleClick={() => navigation.navigate("Home")}
           iconPath={require("../assets/icons/homeIcon.png")}
         />
       </Box>

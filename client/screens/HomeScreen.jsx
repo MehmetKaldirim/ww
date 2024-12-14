@@ -98,19 +98,20 @@ export default HomeScreen = ({ navigation }) => {
     { name: "Mocked Pressure", value: "1018" },
   ];
 
-  // console.log(
-  //   "cekilen cile ",
-  //   data?.currentDay.weatherData || fallbackWeatherData
-  // );
   console.log(
-    "details data which send as a props ",
-    data?.currentDay.details || fallbackDetailsData
+    "is icon pass here ",
+    data?.currentDay.weatherData || fallbackWeatherData
   );
+  // console.log(
+  //   "details data which send as a props ",
+  //   data?.currentDay.details || fallbackDetailsData
+  // );
 
   console.log("is loading son " + isLoading);
   return (
     <View style={styles.container}>
       <ScreenTitle title={`Hey ${userName}, nice to meet you!`} />
+
       {!isLoading || !isManualLocation ? (
         <>
           <Box flexDir="row">
@@ -129,9 +130,7 @@ export default HomeScreen = ({ navigation }) => {
           <View style={styles.middleSection}>
             <View>
               <WeatherSection weatherData={data?.currentDay.weatherData} />
-              <DetailsSection
-                detailsData={data?.currentDay.details || fallbackDetailsData}
-              />
+              <DetailsSection detailsData={data?.currentDay.details} />
             </View>
             <Image
               style={styles.logo}

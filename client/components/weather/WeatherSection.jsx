@@ -19,7 +19,12 @@ const WeatherSection = ({ weatherData }) => {
         data={weatherData}
         renderItem={({ item }) => {
           return (
-            <WeatherData time={item.time} temp={item.temp} wind={item.wind} />
+            <WeatherData
+              time={item.time}
+              temp={item.temp}
+              wind={item.wind}
+              icon={item.icon}
+            />
           );
         }}
       />
