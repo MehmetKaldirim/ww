@@ -59,7 +59,7 @@ const ErrorSection = ({ errorText }) => {
         }}
         bgColor="primary.150"
       >
-        Contact: support@stskdrv.dev
+        Contact: support@mathweb.dev
       </Box>
     </Box>
   );
