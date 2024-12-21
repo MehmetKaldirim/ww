@@ -12,19 +12,44 @@ module.exports.getAll = async (req, res) => {
 };
 
 module.exports.newRecord = async (req, res) => {
-  const record = new Record({
-    //date will be added by mongoose automatically
-    user: req.user.id,
-    imgSrc: req.file?.path || "../uploads/placeHolderImg.png",
-    description: req.body.description,
-    mintemp: req.body.mintemp,
-    maxtemp: req.body.maxtemp,
-    wind: req.body.wind,
-  });
+  const { user, body, file } = req;
 
   try {
+    const existingRecord = await Record.findOne({
+      user: user.id,
+      date: { $gte: new Date().setHours(0, 0, 0, 0) },
+    });
+
+    if (existingRecord) {
+      existingRecord.imgSrc = file?.path || "";
+      existingRecord.description = body.description;
+      existingRecord.mintemp = body.mintemp;
+      existingRecord.maxtemp = body.maxtemp;
+      existingRecord.wind = body.wind;
+      existingRecord.weatherData = body.weatherData;
+
+      await existingRecord.save();
+      return res.status(200).json({
+        data: existingRecord,
+        message: "Record was updated!",
+      });
+    }
+
+    const record = new Record({
+      user: user.id,
+      imgSrc: file?.path || "",
+      description: body.description,
+      mintemp: body.mintemp,
+      maxtemp: body.maxtemp,
+      wind: body.wind,
+      weatherData: body.weatherData,
+    });
+
     await record.save();
-    res.status(201).json(record);
+    return res.status(201).json({
+      data: record,
+      message: "Record was created!",
+    });
   } catch (e) {
     errorHendler(res, e);
   }
